@@ -1,9 +1,11 @@
 <script setup>
-
+import MainPage from './pages/MainPage.vue'
+// import MovieDetailsPage from './pages/MovieDetailsPage.vue';
 </script>
 
 <template>
-  <h1 class="">Hello World</h1>
+  <main-page/>
+  <!-- <movie-details-page/> -->
 </template>
 
 <style scoped></style>
