@@ -1,7 +1,8 @@
 <script setup>
 import MainPage from './pages/MainPage.vue'
+// import Edit from './pages/Edit.vue';
 // import Login from './pages/Login.vue';
-// import SignUpEdit from './pages/SignUp-Edit.vue';
+// import SignUp from './pages/SignUp.vue';
 // import MovieDetailsPage from './pages/MovieDetailsPage.vue';
 </script>
 
@@ -9,7 +10,8 @@ import MainPage from './pages/MainPage.vue'
   <main-page />
   <!-- <movie-details-page/> -->
   <!-- <login/> -->
-  <!-- <sign-up-edit title="Sign Up"/> -->
+  <!-- <sign-up/> -->
+  <!-- <edit/> -->
 </template>
 
 <style scoped></style>

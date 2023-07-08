@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+const hideNav = ref(true)
+const hideSearch = ref(true)
+</script>
 
 <template>
   <header
@@ -25,7 +29,7 @@
       </div>
     </a>
     <nav class="bg-white overflow-hidden rounded-lg flex items-center">
-      <button class="bg-white px-3 py-2 lg:hidden">
+      <button @click="hideNav = !hideNav" class="bg-white px-3 py-2 lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -68,7 +72,16 @@
           >
         </li>
       </ul>
-      <button class="bg-white p-2 border-l">
+      <form
+        @submit.prevent=""
+        :class="[
+          'transition-all text-black p-1 max-w-[55px] sm:max-w-full',
+          { hidden: hideSearch }
+        ]"
+      >
+        <input type="search" name="search" id="search" placeholder="Search..." autocomplete="off" />
+      </form>
+      <button @click="hideSearch = !hideSearch" class="bg-white p-2 border-l">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -86,6 +99,40 @@
       </button>
     </nav>
   </header>
+  <div
+    :class="{ hidden: hideNav }"
+    class="lg:hidden flex flex-col rounded-md bg-white max-1w-full max-h-full mb-8 mad:max-w-screen-md container"
+  >
+    <ul class="text-black">
+      <li class="border-b py-2">
+        <a href="#" class="text-ogangeLink transition-all px-4">Home</a>
+      </li>
+      <li class="border-b py-2">
+        <a
+          href="watchlist.html"
+          rel="nofallow"
+          class="text-grayLight hover:text-ogangeLink transition-all px-4"
+          >Watchlist</a
+        >
+      </li>
+      <li class="border-b py-2">
+        <a
+          href="profile.html"
+          rel="nofallow"
+          class="text-grayLight hover:text-ogangeLink transition-all px-4"
+          >Profile</a
+        >
+      </li>
+      <li class="py-2">
+        <a
+          href="login.html"
+          rel="nofallow"
+          class="text-grayLight hover:text-ogangeLink transition-all px-4"
+          >Login / SignUp</a
+        >
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped></style>
