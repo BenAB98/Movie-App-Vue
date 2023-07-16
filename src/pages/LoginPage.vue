@@ -1,6 +1,9 @@
+<script setup>
+import FormComponent from '@/components/FormComponent.vue'
+</script>
+
 <template>
   <div class="bg-background">
-    <header-component />
     <form-component title="Login">
       <div class="border flex items-center justify-center p-2 rounded-lg">
         <span class="">
@@ -58,17 +61,12 @@
         <a href="#" class="text-grayLight hover:text-ogangeLink transition-all w-fit text-center"
           >Forgot Your Password?</a
         >
-        <a href="signup.html" class="text-grayLight hover:text-ogangeLink transition-all w-fit"
-          >Don't Have An Account?</a
+        <router-link
+          :to="{ name: 'signup' }"
+          class="text-grayLight hover:text-ogangeLink transition-all w-fit"
+          >Don't Have An Account?</router-link
         >
       </div>
     </form-component>
-    <footer-component />
   </div>
 </template>
-
-<script setup>
-import FormComponent from '../components/FormComponent.vue'
-</script>
-
-<style scoped></style>

@@ -1,10 +1,9 @@
 <script setup>
-import FormComponent from '../components/FormComponent.vue'
+import FormComponent from '@/components/FormComponent.vue'
 </script>
 
 <template>
   <div class="bg-background">
-    <header-component />
     <form-component title="Edit Profile">
       <div class="border flex items-center p-2 rounded-lg">
         <span class="">
@@ -137,8 +136,5 @@ import FormComponent from '../components/FormComponent.vue'
         />
       </div>
     </form-component>
-    <footer-component />
   </div>
 </template>
-
-<style scoped></style>

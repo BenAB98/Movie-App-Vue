@@ -12,5 +12,3 @@ defineProps({
     <span class="px-4 py-2 inline-block">{{ title }}</span>
   </button>
 </template>
-
-<style scoped></style>

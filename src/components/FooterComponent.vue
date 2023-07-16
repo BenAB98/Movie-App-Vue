@@ -1,7 +1,13 @@
-<script setup></script>
+<script setup>
+const footerProps = {
+  titles: ['Recent Review', 'Help Center', 'Join Us'],
+  lorems: ['Lorem ipsum dolor', 'sit amet consectetur', 'adipisicing elit', 'Animi, tempora'],
+  socialMedia: ['Facebook', 'Twitter', 'Google+', 'Pinterest']
+}
+</script>
 
 <template>
-  <footer class="py-12 px-4 md:px-8">
+  <footer class="bg-background py-12 px-4 md:px-8">
     <div class="flex flex-col container lg:grid lg:grid-cols-6 lg:max-w-[1170px]">
       <div class="mb-4 lg:pr-2">
         <h3 class="text-grayWhite mb-4 text-lg">About-Us</h3>
@@ -10,64 +16,26 @@
           Fugiat, tempora ad!
         </p>
       </div>
-      <div class="text-grayLight mb-4">
-        <h3 class="text-grayWhite mb-4 text-lg">Recent Review</h3>
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Lorem ipsum dolor</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >sit amet consectetur</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >adipisicing elit</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Animi, tempora</a
-        >
-      </div>
-      <div class="text-grayLight mb-4">
-        <h3 class="text-grayWhite mb-4 text-lg">Help Center</h3>
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Lorem ipsum dolor</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >sit amet consectetur</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >adipisicing elit</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Animi, tempora</a
-        >
-      </div>
-      <div class="text-grayLight mb-4">
-        <h3 class="text-grayWhite mb-4 text-lg">Join Us</h3>
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Lorem ipsum dolor</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >sit amet consectetur</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >adipisicing elit</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Animi, tempora</a
+      <div v-for="item in footerProps.titles" :key="item" class="text-grayLight mb-4">
+        <h3 class="text-grayWhite mb-4 text-lg">{{ item }}</h3>
+        <a
+          v-for="item in footerProps.lorems"
+          :key="item"
+          href="#"
+          rel="nofallow"
+          class="block w-fit hover:text-ogangeLink transition-all"
+          >{{ item }}</a
         >
       </div>
       <div class="text-grayLight mb-4">
         <h3 class="text-grayWhite mb-4 text-lg">Social Media</h3>
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Facebook</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Twitter</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Google+</a
-        >
-        <a href="#" rel="nofallow" class="block w-fit hover:text-ogangeLink transition-all"
-          >Pinterest</a
+        <a
+          v-for="item in footerProps.socialMedia"
+          :key="item"
+          href="#"
+          rel="nofallow"
+          class="block w-fit hover:text-ogangeLink transition-all"
+          >{{ item }}</a
         >
       </div>
       <div class="text-grayLight mb-4">
@@ -105,5 +73,3 @@
     </div>
   </footer>
 </template>
-
-<style scoped></style>

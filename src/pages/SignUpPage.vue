@@ -1,6 +1,9 @@
+<script setup>
+import FormComponent from '@/components/FormComponent.vue'
+</script>
+
 <template>
   <div class="bg-background">
-    <header-component />
     <form-component title="Sign Up">
       <div class="border flex items-center p-2 rounded-lg">
         <span class="">
@@ -21,8 +24,8 @@
         </span>
         <input
           type="text"
-          name=""
-          id=""
+          name="username"
+          id="username"
           class="p-2 w-full"
           autocomplete="off"
           placeholder="Username..."
@@ -47,8 +50,8 @@
         </span>
         <input
           type="password"
-          name=""
-          id=""
+          name="password"
+          id="password"
           class="p-2 w-full"
           autocomplete="off"
           placeholder="Password..."
@@ -73,8 +76,8 @@
         </span>
         <input
           type="password"
-          name=""
-          id=""
+          name="new-password"
+          id="new-password"
           class="p-2 w-full"
           autocomplete="off"
           placeholder="Confirm Password..."
@@ -99,8 +102,8 @@
         </span>
         <input
           type="text"
-          name=""
-          id=""
+          name="sign-up-email"
+          id="sign-up-email"
           class="p-2 w-full"
           autocomplete="off"
           placeholder="Email..."
@@ -125,26 +128,13 @@
         </span>
         <input
           type="text"
-          name=""
-          id=""
+          name="full-name"
+          id="full-name"
           class="p-2 w-full"
           autocomplete="off"
           placeholder="Full Name..."
         />
       </div>
     </form-component>
-    <footer-component />
   </div>
 </template>
-
-<script setup>
-import FormComponent from '../components/FormComponent.vue'
-defineProps({
-  title: {
-    type: String,
-    required: true
-  }
-})
-</script>
-
-<style scoped></style>

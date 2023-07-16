@@ -11,15 +11,19 @@ defineProps({
   src: {
     type: String,
     required: true
-  }
+  },
+  id: Number
 })
 </script>
 
 <template>
-  <li
-    class="cursor-pointer hover:scale-95 transition-all min-h-[231px] min-w-[150px] rounded-lg overflow-hidden"
-  >
-    <img class="rounded-b-md object-top object-cover h-[225px] w-[150px]" :src="src" />
+  <li class="min-h-[231px] min-w-[150px] overflow-hidden">
+    <router-link :to="{ name: 'movie', params: { id } }">
+      <img
+        class="rounded-lg cursor-pointer hover:scale-95 transition-all rounded-b-md object-top object-cover h-[225px] w-[150px]"
+        :src="src"
+      />
+    </router-link>
     <p class="p-1 font-medium">{{ title }}</p>
     <p class="px-1 text-xs text-grayLight">{{ publishDate }}</p>
   </li>

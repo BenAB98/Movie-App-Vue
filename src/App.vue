@@ -1,17 +1,11 @@
 <script setup>
-import MainPage from './pages/MainPage.vue'
-// import Edit from './pages/Edit.vue';
-// import Login from './pages/Login.vue';
-// import SignUp from './pages/SignUp.vue';
-// import MovieDetailsPage from './pages/MovieDetailsPage.vue';
+import { RouterView } from 'vue-router'
+import FooterComponent from './components/FooterComponent.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
 </script>
 
 <template>
-  <main-page />
-  <!-- <movie-details-page/> -->
-  <!-- <login/> -->
-  <!-- <sign-up/> -->
-  <!-- <edit/> -->
+  <header-component />
+  <router-view />
+  <footer-component />
 </template>
-
-<style scoped></style>

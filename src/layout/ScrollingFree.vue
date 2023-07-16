@@ -1,7 +1,13 @@
 <script setup>
+import {
+  API_BASE_URL,
+  API_VERSION,
+  API_IMAGE_BASE_URL,
+  API_IMAGE_SIZE
+} from '@/constants/api-constants'
 import { ref } from 'vue'
-import ScrollingMovieCards from '../components/ScrollingMovieCards.vue'
-import { fetchApi } from '../fetchAPI'
+import ScrollingMovieCards from '@/components/ScrollingMovieCards.vue'
+import { fetchApi } from '@/utils/fetchAPI'
 defineProps({
   title: {
     type: String,
@@ -9,7 +15,7 @@ defineProps({
   }
 })
 const moviesList = ref([])
-fetchApi('https://api.themoviedb.org/3/movie/popular?language=en-US&page=2')
+fetchApi(`${API_BASE_URL}${API_VERSION}/movie/popular?language=en-US&page=2`)
   .then((response) => (moviesList.value = response.results))
   .catch((err) => console.log(err))
 </script>
@@ -23,12 +29,11 @@ fetchApi('https://api.themoviedb.org/3/movie/popular?language=en-US&page=2')
       <scrolling-movie-cards
         v-for="movie in moviesList"
         :key="movie.id"
+        :id="movie.id"
         :title="movie.title"
         :publishDate="movie.release_date"
-        :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+        :src="`${API_IMAGE_BASE_URL}${API_IMAGE_SIZE}${movie.poster_path}`"
       />
     </ul>
   </section>
 </template>
-
-<style scoped></style>

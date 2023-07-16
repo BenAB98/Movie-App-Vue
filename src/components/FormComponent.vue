@@ -1,5 +1,5 @@
 <script setup>
-import ButtonPrimary from './ButtonPrimary.vue'
+import ButtonPrimary from '@/components/ButtonPrimary.vue'
 defineProps({
   title: {
     type: String,

@@ -1,12 +1,21 @@
 <script setup>
-import { ref } from 'vue'
-import { fetchApi } from '../fetchAPI'
-import Movies from './Movies.vue'
-import Skeleton from './Skeleton.vue'
-const moviesList = ref([])
-fetchApi('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=3')
-  .then((response) => (moviesList.value = response.results))
+import {
+  API_BASE_URL,
+  API_VERSION,
+  API_IMAGE_BASE_URL,
+  API_IMAGE_SIZE
+} from '@/constants/api-constants'
+import { computed, ref } from 'vue'
+import { fetchApi } from '@/utils/fetchAPI'
+import Movies from '@/components/Movies.vue'
+import Skeleton from '@/components/Skeleton.vue'
+const moviesResponse = ref([])
+
+fetchApi(`${API_BASE_URL}${API_VERSION}/movie/top_rated?language=en-US&page=1`)
+  .then((response) => (moviesResponse.value = response.results))
   .catch((err) => console.log(err))
+
+const moviesList = computed(() => moviesResponse.value.slice(0, 7))
 </script>
 
 <template>
@@ -18,13 +27,11 @@ fetchApi('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=3')
     </template>
     <template v-for="(movie, index) in moviesList" :key="movie.id">
       <movies
-        v-if="index < 7"
         :index="index"
+        :id="movie.id"
         :alt="movie.title"
-        :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+        :src="`${API_IMAGE_BASE_URL}${API_IMAGE_SIZE}${movie.poster_path}`"
       />
     </template>
   </main>
 </template>
-
-<style scoped></style>
