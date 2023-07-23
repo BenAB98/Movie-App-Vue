@@ -4,10 +4,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  index: {
-    type: Number,
-    required: true
-  },
+  index: Number,
   alt: String,
   id: Number
 })
@@ -24,5 +21,3 @@ const props = defineProps({
     <img :src="src" :alt="alt" class="rounded-lg w-full h-full" />
   </router-link>
 </template>
-
-<style scoped></style>

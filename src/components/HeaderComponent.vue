@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { USER } from '@/utils/keys'
+const user = inject(USER)
 const hideNav = ref(true)
 const hideSearch = ref(true)
+const loggedHeaderProps = {
+  title: ['Home', 'Watchlist', 'Profile'],
+  to: [{ name: 'home' }, { name: 'watchlist' }, { name: 'profile' }]
+}
 const headerProps = {
-  title: ['Home', 'Watchlist', 'Profile', 'Login / SignUp'],
-  to: [{ name: 'home' }, { name: 'login' }, { name: 'login' }, { name: 'login' }]
+  title: ['Home', 'Login / SignUp'],
+  to: [{ name: 'home' }, { name: 'login' }]
 }
 </script>
 
@@ -52,18 +58,34 @@ const headerProps = {
           </svg>
         </button>
         <ul class="hidden lg:flex text-black justify-center items-center">
-          <li
-            v-for="(item, index) in headerProps.title"
-            :key="item"
-            :class="{ 'border-l': index > 0 }"
-          >
-            <router-link
-              active-class="text-ogangeLink"
-              :to="headerProps.to[index]"
-              class="text-grayLight hover:text-ogangeLink transition-all px-4"
-              >{{ item }}</router-link
+          <template v-if="user">
+            <li
+              v-for="(item, index) in loggedHeaderProps.title"
+              :key="item"
+              :class="{ 'border-l': index > 0 }"
             >
-          </li>
+              <router-link
+                active-class="text-ogangeLink"
+                :to="loggedHeaderProps.to[index]"
+                class="text-grayLight hover:text-ogangeLink transition-all px-4"
+                >{{ item }}</router-link
+              >
+            </li>
+          </template>
+          <template v-else>
+            <li
+              v-for="(item, index) in headerProps.title"
+              :key="item"
+              :class="{ 'border-l': index > 0 }"
+            >
+              <router-link
+                active-class="text-ogangeLink"
+                :to="headerProps.to[index]"
+                class="text-grayLight hover:text-ogangeLink transition-all px-4"
+                >{{ item }}</router-link
+              >
+            </li>
+          </template>
         </ul>
         <form
           @submit.prevent=""
@@ -103,41 +125,34 @@ const headerProps = {
       class="lg:hidden flex flex-col rounded-md bg-white md:max-w-screen-md container"
     >
       <ul class="">
-        <li class="border-b py-2">
-          <router-link
-            active-class="text-ogangeLink"
-            :to="{ name: 'home' }"
-            class="text-grayLight transition-all px-4"
-            >Home</router-link
+        <template v-if="user">
+          <li
+            v-for="(item, index) in loggedHeaderProps.title"
+            :key="item"
+            :class="['py-2', { 'border-b': index < loggedHeaderProps.title.length - 1 }]"
           >
-        </li>
-        <li class="border-b py-2">
-          <router-link
-            active-class="text-ogangeLink"
-            :to="{ name: 'login' }"
-            rel="nofallow"
-            class="text-grayLight hover:text-ogangeLink transition-all px-4"
-            >Watchlist</router-link
+            <router-link
+              active-class="text-ogangeLink"
+              :to="loggedHeaderProps.to[index]"
+              class="text-grayLight transition-all px-4"
+              >{{ item }}</router-link
+            >
+          </li>
+        </template>
+        <template v-else>
+          <li
+            v-for="(item, index) in headerProps.title"
+            :key="item"
+            :class="['py-2', { 'border-b': index < headerProps.title.length - 1 }]"
           >
-        </li>
-        <li class="border-b py-2">
-          <router-link
-            active-class="text-ogangeLink"
-            :to="{ name: 'login' }"
-            rel="nofallow"
-            class="text-grayLight hover:text-ogangeLink transition-all px-4"
-            >Profile</router-link
-          >
-        </li>
-        <li class="py-2">
-          <router-link
-            active-class="text-ogangeLink"
-            :to="{ name: 'login' }"
-            rel="nofallow"
-            class="text-grayLight hover:text-ogangeLink transition-all px-4"
-            >Login / SignUp</router-link
-          >
-        </li>
+            <router-link
+              active-class="text-ogangeLink"
+              :to="headerProps.to[index]"
+              class="text-grayLight transition-all px-4"
+              >{{ item }}</router-link
+            >
+          </li>
+        </template>
       </ul>
     </div>
   </header>

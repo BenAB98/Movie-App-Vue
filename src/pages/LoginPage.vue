@@ -1,10 +1,27 @@
 <script setup>
 import FormComponent from '@/components/FormComponent.vue'
-</script>
+import { inject, ref } from 'vue'
+import { LOGIN,USER } from '@/utils/keys';
+import { useRouter } from 'vue-router';
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
+const user = inject(USER)
+const login = inject(LOGIN)
+const username = ref('')
+const password = ref('')
+const router = useRouter()
+async function signin() {
+  await login(username.value, password.value)
+  if(user) {
+    await router.replace({ name: 'home' });
+    toast.success("Login was Successful")
+};
+}
+</script>
 <template>
   <div class="bg-background">
-    <form-component title="Login">
+    <form-component title="Login" :submit="signin">
       <div class="border flex items-center justify-center p-2 rounded-lg">
         <span class="">
           <svg
@@ -23,6 +40,7 @@ import FormComponent from '@/components/FormComponent.vue'
           </svg>
         </span>
         <input
+          v-model="username"
           type="text"
           name="username"
           id="username"
@@ -49,6 +67,7 @@ import FormComponent from '@/components/FormComponent.vue'
           </svg>
         </span>
         <input
+          v-model="password"
           type="password"
           name="password"
           id="password"
