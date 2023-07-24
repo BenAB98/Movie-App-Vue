@@ -1,20 +1,14 @@
 <template>
-  <div class="skeleton"></div>
+  <div
+    :class="[
+      'bg-[#c3c3c3] rounded-lg px-12 py-28 animate-pulse animate-infinite',
+      { 'md:col-span-2 lg:col-span-3 row-span-2': props.index === 0 }
+    ]"
+  ></div>
 </template>
 
 <script setup>
-defineProps({
-  width: String,
-  height: String,
-  borderRadius: String
+const props = defineProps({
+  index: Number
 })
 </script>
-
-<style scoped>
-.skeleton {
-  width: v-bind(width);
-  height: v-bind(height);
-  border-radius: v-bind(borderRadius);
-  background-color: #f1f2f3;
-}
-</style>
