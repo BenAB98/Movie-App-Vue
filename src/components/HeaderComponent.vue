@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, ref} from 'vue'
+import { computed, inject, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { TOKEN } from '@/utils/keys'
 const route = useRoute()
@@ -7,12 +7,17 @@ const token = inject(TOKEN)
 const hasToken = computed(() => !!token.value)
 const hideNav = ref(true)
 const hideSearch = ref(true)
-const headers = computed(() => ([
-  {title: 'Home', to: {name: 'home'}},
-  hasToken.value && {title: 'Watchlist', to: {name: 'watchlist'}},
-  hasToken.value && {title: 'Profile', to: {name: 'profile'}},
-  !hasToken.value && {title: 'Login / SignUp', to: {name: 'login' , query: {redirect: route.fullPath} }},
-].filter(Boolean))) 
+const headers = computed(() =>
+  [
+    { title: 'Home', to: { name: 'home' } },
+    hasToken.value && { title: 'Watchlist', to: { name: 'watchlist' } },
+    hasToken.value && { title: 'Profile', to: { name: 'profile' } },
+    !hasToken.value && {
+      title: 'Login / SignUp',
+      to: { name: 'login', query: { redirect: route.fullPath } }
+    }
+  ].filter(Boolean)
+)
 </script>
 
 <template>
@@ -58,11 +63,7 @@ const headers = computed(() => ([
           </svg>
         </button>
         <ul class="hidden lg:flex text-black justify-center items-center">
-          <li
-            v-for="(item) in headers"
-            :key="item.title"
-            class="py-2 border-l"
-          >
+          <li v-for="item in headers" :key="item.title" class="py-2 border-l">
             <router-link
               active-class="text-ogangeLink"
               :to="item.to"
@@ -109,18 +110,14 @@ const headers = computed(() => ([
       class="lg:hidden flex flex-col rounded-md bg-white md:max-w-screen-md container"
     >
       <ul class="">
-          <li
-            v-for="(item) in headers"
-            :key="item.title"
-            class="py-2 [&:not(:last)]:border-b"
+        <li v-for="item in headers" :key="item.title" class="py-2 [&:not(:last)]:border-b">
+          <router-link
+            active-class="text-ogangeLink"
+            :to="item.to"
+            class="text-grayLight transition-all px-4"
+            >{{ item.title }}</router-link
           >
-            <router-link
-              active-class="text-ogangeLink"
-              :to="item.to"
-              class="text-grayLight transition-all px-4"
-              >{{ item.title }}</router-link
-            >
-          </li>
+        </li>
       </ul>
     </div>
   </header>

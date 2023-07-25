@@ -5,16 +5,14 @@ import {
   VALIDATE_WITH_LOGIN_URL,
   ACCOUNT_URL
 } from '@/constants/endpoints'
-import { LOGIN, USER,TOKEN } from '@/utils/keys'
+import { LOGIN, USER, TOKEN } from '@/utils/keys'
 import { useStorage } from '@vueuse/core'
-
 
 const USER_ID = 'user_id'
 const TOKEN_KEY = 'token'
 export default function useAuth(app, router) {
   const user = useStorage(USER_ID, {}, sessionStorage)
   const token = useStorage(TOKEN_KEY, null, sessionStorage)
-
 
   async function createRequestToken() {
     const res = await fetch(`${API_BASE_URL}${API_VERSION}${CREATE_REQUEST_TOKEN_URL}`, {
@@ -26,7 +24,7 @@ export default function useAuth(app, router) {
     const data = await res.json()
     if (!data.success) {
       throw new Error('Creating request token failed.')
-    } else { 
+    } else {
       return data.request_token
     }
   }
@@ -49,8 +47,7 @@ export default function useAuth(app, router) {
     const data = await res.json()
     if (!data.success) {
       throw new Error('Authorizing the request token failed.')
-    }
-   else return data
+    } else return data
   }
 
   async function createSession(requestToken) {
@@ -97,30 +94,28 @@ export default function useAuth(app, router) {
 
   async function login(username, password) {
     try {
-      
-     const request_token = await createRequestToken()
-     if(request_token) {
-      await validateWithLogin(request_token, username, password)
-      await createSession(request_token)
-      user.value = await getAccountData()
-      token.value = request_token
-     }
+      const request_token = await createRequestToken()
+      if (request_token) {
+        await validateWithLogin(request_token, username, password)
+        await createSession(request_token)
+        user.value = await getAccountData()
+        token.value = request_token
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   router.beforeEach((to, _, next) => {
-    if (to.matched.some(record => record.meta.guest===false) && !token.value)
-      next({name:'login'})
-    else if(to.name === 'login' && token.value) {
-      next({name:'home'})
+    if (to.matched.some((record) => record.meta.guest === false) && !token.value)
+      next({ name: 'login' })
+    else if (to.name === 'login' && token.value) {
+      next({ name: 'home' })
     } else {
-      next();
+      next()
     }
-  });
+  })
   app.provide(USER, user)
   app.provide(LOGIN, login)
-  app.provide(TOKEN,token)
-  
+  app.provide(TOKEN, token)
 }

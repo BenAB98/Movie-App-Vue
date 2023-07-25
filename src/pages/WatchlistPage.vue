@@ -28,7 +28,7 @@
 <script setup>
 import Movies from '@/components/Movies.vue'
 import WatchlistDetails from '@/components/WatchlistDetails.vue'
-import { fetchApi, addOrRemoveList } from '@/utils/fetchAPI'
+import { fetchApi, addOrRemoveWatchList } from '@/utils/fetchAPI'
 import { USER } from '@/utils/keys'
 import {
   API_BASE_URL,
@@ -48,7 +48,7 @@ fetchApi(`${API_BASE_URL}${API_VERSION}/account/${userId}/watchlist/movies`)
   .catch((err) => console.log(err))
 
 async function handleDeleteWatchlist(movieId) {
-  await addOrRemoveList(
+  await addOrRemoveWatchList(
     `${API_BASE_URL}${API_VERSION}/account/${user.value.id}/watchlist`,
     `${movieId}`,
     false

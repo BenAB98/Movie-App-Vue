@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white h-screen container w-full lg:max-w-[1170px] rounded-lg flex justify-center items-center">
+  <div
+    class="bg-white h-screen container w-full lg:max-w-[1170px] rounded-lg flex justify-center items-center"
+  >
     <div class="spinner">
       <div></div>
       <div></div>

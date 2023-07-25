@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <div class="not-found" >
+  <div class="not-found">
     <div class="notfound">
       <div class="notfound-404">
         <h1>4<span>0</span>4</h1>
@@ -31,7 +31,7 @@ body {
 .not-found {
   position: relative;
   height: 100vh;
-  background-color: #12191F;
+  background-color: #12191f;
 }
 
 .not-found .notfound {
