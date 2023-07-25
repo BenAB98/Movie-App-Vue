@@ -6,7 +6,7 @@ import {
   ACCOUNT_URL
 } from '@/constants/endpoints'
 import { computed } from 'vue'
-import { LOGIN, USER } from '@/utils/keys'
+import { LOGIN, USER,TOKEN } from '@/utils/keys'
 
 const USER_ID = 'user_id'
 export default function useAuth(app) {
@@ -14,6 +14,10 @@ export default function useAuth(app) {
   const user = computed({
     get: () => JSON.parse(sessionStorage.getItem(USER_ID) || 'null'),
     set: (value) => sessionStorage.setItem(USER_ID, JSON.stringify(value))
+  })
+  const token = computed({
+    get: () => JSON.parse(sessionStorage.getItem('token') || 'null'),
+    set: (value) => sessionStorage.setItem('token', JSON.stringify(value))
   })
   async function createRequestToken() {
     const res = await fetch(`${API_BASE_URL}${API_VERSION}${CREATE_REQUEST_TOKEN_URL}`, {
@@ -26,6 +30,7 @@ export default function useAuth(app) {
     if (!data.success) {
       throw new Error('Creating request token failed.')
     }
+    sessionStorage.setItem('token', data.request_token)
     return data.request_token
   }
 
@@ -86,7 +91,7 @@ export default function useAuth(app) {
     const res = await fetch(url, options)
     const data = await res.json()
     if (!data.id) {
-      throw new Error('Gettinh user info failed.')
+      throw new Error('Getting user info failed.')
     }
     sessionStorage.setItem('user_id', data.id)
     return data
@@ -97,8 +102,10 @@ export default function useAuth(app) {
     await validateWithLogin(requestToken, username, password)
     await createSession(requestToken)
     user.value = await getAccountData()
+    token.value = await createRequestToken()
   }
 
   app.provide(USER, user)
   app.provide(LOGIN, login)
+  app.provide(TOKEN,token)
 }
