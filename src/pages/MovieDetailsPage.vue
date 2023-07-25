@@ -13,7 +13,7 @@ import TopCastCards from '@/components/TopCastCards.vue'
 import Comments from '@/components/Comments.vue'
 import AsideDetails from '@/components/AsideDetails.vue'
 import { USER } from '@/utils/keys'
-import { getDetails, fetchApi, addOrRemoveList } from '@/utils/fetchAPI'
+import { getDetails, fetchApi, addOrRemoveWatchList, addOrRemovelikeMovie } from '@/utils/fetchAPI'
 import { useRoute } from 'vue-router'
 import { computed, inject, ref, watch } from 'vue'
 import { useToast } from 'vue-toastification'
@@ -70,16 +70,20 @@ const comment = computed(() => {
 })
 const newId = computed(() => route.params.id)
 async function handleAddToWatchlist() {
-  if (!user.value) {
-    toast.error('You need to login first!')
-    return false
-  }
-  await addOrRemoveList(
+  await addOrRemoveWatchList(
     `${API_BASE_URL}${API_VERSION}/account/${user.value.id}/watchlist`,
     `${newId.value}`,
     true
   )
   toast.success('Movie added to watchlist')
+}
+async function handleLikeMovie() {
+  await addOrRemovelikeMovie(
+    `${API_BASE_URL}${API_VERSION}/account/${user.value.id}/favorite`,
+    `${newId.value}`,
+    true
+  )
+  toast.success('Movie added to favorite list')
 }
 </script>
 
@@ -88,6 +92,7 @@ async function handleAddToWatchlist() {
     <template v-if="details">
       <details-component
         @watchlist="handleAddToWatchlist"
+        @like="handleLikeMovie"
         :cover="`${API_IMAGE_BASE_URL}${API_IMAGE_SIZE}${details.poster_path}`"
         :movie-title="details.title"
         :year="year"

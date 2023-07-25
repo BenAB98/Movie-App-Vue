@@ -1,18 +1,23 @@
 <script setup>
-import { inject, ref } from 'vue'
-import { RouterLink } from 'vue-router'
-import { USER } from '@/utils/keys'
-const user = inject(USER)
+import { computed, inject, ref } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+import { TOKEN } from '@/utils/keys'
+const route = useRoute()
+const token = inject(TOKEN)
+const hasToken = computed(() => !!token.value)
 const hideNav = ref(true)
 const hideSearch = ref(true)
-const loggedHeaderProps = {
-  title: ['Home', 'Watchlist', 'Profile'],
-  to: [{ name: 'home' }, { name: 'watchlist' }, { name: 'profile' }]
-}
-const headerProps = {
-  title: ['Home', 'Login / SignUp'],
-  to: [{ name: 'home' }, { name: 'login' }]
-}
+const headers = computed(() =>
+  [
+    { title: 'Home', to: { name: 'home' } },
+    hasToken.value && { title: 'Watchlist', to: { name: 'watchlist' } },
+    hasToken.value && { title: 'Profile', to: { name: 'profile' } },
+    !hasToken.value && {
+      title: 'Login / SignUp',
+      to: { name: 'login', query: { redirect: route.fullPath } }
+    }
+  ].filter(Boolean)
+)
 </script>
 
 <template>
@@ -58,34 +63,14 @@ const headerProps = {
           </svg>
         </button>
         <ul class="hidden lg:flex text-black justify-center items-center">
-          <template v-if="user">
-            <li
-              v-for="(item, index) in loggedHeaderProps.title"
-              :key="item"
-              :class="{ 'border-l': index > 0 }"
+          <li v-for="item in headers" :key="item.title" class="py-2 border-l">
+            <router-link
+              active-class="text-ogangeLink"
+              :to="item.to"
+              class="text-grayLight hover:text-ogangeLink transition-all px-4"
+              >{{ item.title }}</router-link
             >
-              <router-link
-                active-class="text-ogangeLink"
-                :to="loggedHeaderProps.to[index]"
-                class="text-grayLight hover:text-ogangeLink transition-all px-4"
-                >{{ item }}</router-link
-              >
-            </li>
-          </template>
-          <template v-else>
-            <li
-              v-for="(item, index) in headerProps.title"
-              :key="item"
-              :class="{ 'border-l': index > 0 }"
-            >
-              <router-link
-                active-class="text-ogangeLink"
-                :to="headerProps.to[index]"
-                class="text-grayLight hover:text-ogangeLink transition-all px-4"
-                >{{ item }}</router-link
-              >
-            </li>
-          </template>
+          </li>
         </ul>
         <form
           @submit.prevent=""
@@ -125,34 +110,14 @@ const headerProps = {
       class="lg:hidden flex flex-col rounded-md bg-white md:max-w-screen-md container"
     >
       <ul class="">
-        <template v-if="user">
-          <li
-            v-for="(item, index) in loggedHeaderProps.title"
-            :key="item"
-            :class="['py-2', { 'border-b': index < loggedHeaderProps.title.length - 1 }]"
+        <li v-for="item in headers" :key="item.title" class="py-2 [&:not(:last)]:border-b">
+          <router-link
+            active-class="text-ogangeLink"
+            :to="item.to"
+            class="text-grayLight transition-all px-4"
+            >{{ item.title }}</router-link
           >
-            <router-link
-              active-class="text-ogangeLink"
-              :to="loggedHeaderProps.to[index]"
-              class="text-grayLight transition-all px-4"
-              >{{ item }}</router-link
-            >
-          </li>
-        </template>
-        <template v-else>
-          <li
-            v-for="(item, index) in headerProps.title"
-            :key="item"
-            :class="['py-2', { 'border-b': index < headerProps.title.length - 1 }]"
-          >
-            <router-link
-              active-class="text-ogangeLink"
-              :to="headerProps.to[index]"
-              class="text-grayLight transition-all px-4"
-              >{{ item }}</router-link
-            >
-          </li>
-        </template>
+        </li>
       </ul>
     </div>
   </header>

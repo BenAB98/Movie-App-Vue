@@ -24,7 +24,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-defineEmits(["remove"])
+defineEmits(['remove'])
 defineProps({
   title: {
     type: String,

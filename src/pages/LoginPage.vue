@@ -1,22 +1,24 @@
 <script setup>
 import FormComponent from '@/components/FormComponent.vue'
-import { inject, ref } from 'vue'
-import { LOGIN,USER } from '@/utils/keys';
-import { useRouter } from 'vue-router';
-import { useToast } from "vue-toastification";
+import { computed, inject, ref } from 'vue'
+import { LOGIN, USER } from '@/utils/keys'
+import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
-const toast = useToast();
+const toast = useToast()
 const user = inject(USER)
 const login = inject(LOGIN)
 const username = ref('')
 const password = ref('')
+const route = useRoute()
 const router = useRouter()
+const redirect = computed(() => route.query?.redirect)
 async function signin() {
   await login(username.value, password.value)
-  if(user) {
-    await router.replace({ name: 'home' });
-    toast.success("Login was Successful")
-};
+  if (user) {
+    redirect.value && router.push(redirect.value || { name: 'home' })
+    toast.success('Login was Successful')
+  }
 }
 </script>
 <template>

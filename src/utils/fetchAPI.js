@@ -15,7 +15,7 @@ export async function fetchApi(url) {
   return data
 }
 
-export async function addOrRemoveList(url, media_id, watchlist) {
+export async function addOrRemoveWatchList(url, media_id, watchlist) {
   const options = {
     method: 'POST',
     headers: {
@@ -27,6 +27,26 @@ export async function addOrRemoveList(url, media_id, watchlist) {
       media_type: 'movie',
       media_id,
       watchlist
+    })
+  }
+  const response = await fetch(url, options)
+  const data = await response.json()
+  if (!response.ok) throw data
+  return data
+}
+
+export async function addOrRemovelikeMovie(url, media_id, favorite) {
+  const options = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      Authorization: `Bearer ${API_READ_ACCESS_TOKEN}`
+    },
+    body: JSON.stringify({
+      media_type: 'movie',
+      media_id,
+      favorite
     })
   }
   const response = await fetch(url, options)

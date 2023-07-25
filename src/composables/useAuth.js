@@ -5,16 +5,15 @@ import {
   VALIDATE_WITH_LOGIN_URL,
   ACCOUNT_URL
 } from '@/constants/endpoints'
-import { computed } from 'vue'
-import { LOGIN, USER } from '@/utils/keys'
+import { LOGIN, USER, TOKEN } from '@/utils/keys'
+import { useStorage } from '@vueuse/core'
 
 const USER_ID = 'user_id'
-export default function useAuth(app) {
+const TOKEN_KEY = 'token'
+export default function useAuth(app, router) {
+  const user = useStorage(USER_ID, {}, sessionStorage)
+  const token = useStorage(TOKEN_KEY, null, sessionStorage)
 
-  const user = computed({
-    get: () => JSON.parse(sessionStorage.getItem(USER_ID) || 'null'),
-    set: (value) => sessionStorage.setItem(USER_ID, JSON.stringify(value))
-  })
   async function createRequestToken() {
     const res = await fetch(`${API_BASE_URL}${API_VERSION}${CREATE_REQUEST_TOKEN_URL}`, {
       headers: {
@@ -25,8 +24,9 @@ export default function useAuth(app) {
     const data = await res.json()
     if (!data.success) {
       throw new Error('Creating request token failed.')
+    } else {
+      return data.request_token
     }
-    return data.request_token
   }
 
   async function validateWithLogin(requestToken, username, password) {
@@ -47,7 +47,7 @@ export default function useAuth(app) {
     const data = await res.json()
     if (!data.success) {
       throw new Error('Authorizing the request token failed.')
-    }
+    } else return data
   }
 
   async function createSession(requestToken) {
@@ -86,19 +86,36 @@ export default function useAuth(app) {
     const res = await fetch(url, options)
     const data = await res.json()
     if (!data.id) {
-      throw new Error('Gettinh user info failed.')
+      throw new Error('Getting user info failed.')
     }
-    sessionStorage.setItem('user_id', data.id)
+    user.value = data
     return data
   }
 
   async function login(username, password) {
-    const requestToken = await createRequestToken()
-    await validateWithLogin(requestToken, username, password)
-    await createSession(requestToken)
-    user.value = await getAccountData()
+    try {
+      const request_token = await createRequestToken()
+      if (request_token) {
+        await validateWithLogin(request_token, username, password)
+        await createSession(request_token)
+        user.value = await getAccountData()
+        token.value = request_token
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
+  router.beforeEach((to, _, next) => {
+    if (to.matched.some((record) => record.meta.guest === false) && !token.value)
+      next({ name: 'login' })
+    else if (to.name === 'login' && token.value) {
+      next({ name: 'home' })
+    } else {
+      next()
+    }
+  })
   app.provide(USER, user)
   app.provide(LOGIN, login)
+  app.provide(TOKEN, token)
 }
