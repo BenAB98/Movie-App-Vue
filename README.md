@@ -1,35 +1,25 @@
-# movie-website-vue
+## Movie Website
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is a website for introducing the latest released and the most papular movies to users
+## Demo
 
-## Recommended IDE Setup
+https://zesty-hamster-2535ef.netlify.app/
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## How to use
 
-## Customize configuration
+Since this is an open source project, you can clone the code on your local computer and run the project
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+To run this project :
 
-## Project Setup
-
-```sh
-npm install
+```bash
+ > npm install
+ > npm run dev
 ```
 
-### Compile and Hot-Reload for Development
+## Environment Variables
 
-```sh
-npm run dev
-```
+To run this project on your local computer, you will need to add the following environment variable(s) to your .env file
 
-### Compile and Minify for Production
+'VITE_API_READ_ACCESS_TOKEN'
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+You will need visit https://www.themoviedb.org/ and get your 'API_READ_ACCESS_TOKEN'
